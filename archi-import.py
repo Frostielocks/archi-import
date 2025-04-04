@@ -1,5 +1,5 @@
 import argparse
-
+import os
 
 def convert_names_to_csv(names, type, specialization="", verbose=False):
     """
@@ -50,6 +50,38 @@ def write_csv_to_file(csv_string, filename, verbose=False):
     return bytes_written
 
 
+def sanitize_type(type):
+    return
+
+
+def sanitize_specialization(specialization):
+    return
+
+
+def sanitize_output(output_path, verbose=False):
+    """
+    """
+    if os.path.exists(output_path) and os.path.isdir(output_path):
+        new_output_path = output_path + ('' if output_path.endswith('/') else '/') + 'elements.csv'
+        
+        if verbose:
+            print("Adjusted output path to {0}".format(new_output_path))
+        
+        return new_output_path
+    
+    elif output_path.endswith("/elements.csv") or output_path == "elements.csv":
+        return output_path
+    
+    else:
+        raise ValueError("output filename should either be an existing directory or end with \"elements.csv\"")
+
+
+def sanitize_arguments(args):
+    args.output = sanitize_output(output_path=args.output, verbose=args.verbose)
+
+    return args
+
+
 def initialize_parser():
     """
     Initialize a new parser object.
@@ -67,8 +99,9 @@ def initialize_parser():
         help="type of ArchiMate elements to be imported")
     parser.add_argument('input',
         help="path to the input file containing the list")
+
     parser.add_argument('-o', '--output', default="elements.csv",
-        help="path to the output file, default is \"elements.csv\"")
+        help="path to the output file (or directory), default is \"elements.csv\"")
     parser.add_argument('-s', '--specialization',
         help="specialization for the ArchiMate elements") 
     parser.add_argument('-v', '--verbose', action='store_true', 
@@ -80,7 +113,7 @@ def initialize_parser():
 def main():
     """The entrypoint for this script."""
     parser = initialize_parser()
-    args = parser.parse_args()
+    args = sanitize_arguments(parser.parse_args())
 
     if args.verbose:
         print("Starting...")
