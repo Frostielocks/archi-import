@@ -1,6 +1,6 @@
 # archi-import
 ```
-usage: archi-import [-h] [-o OUTPUT] [-s SPECIALIZATION] [-v] type input
+usage: archi-import [-h] [-v] [-s SPECIALIZATION] [-o OUTPUT] type input
 
 Create an archi import csv file given a list of names
 
@@ -10,12 +10,12 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
+  -v, --verbose         show verbose output
+  -s SPECIALIZATION, --specialization SPECIALIZATION
+                        specialization for the ArchiMate elements
   -o OUTPUT, --output OUTPUT
                         path to the output file (or directory), default is
                         "elements.csv"
-  -s SPECIALIZATION, --specialization SPECIALIZATION
-                        specialization for the ArchiMate elements
-  -v, --verbose         show verbose output
 
 See also https://github.com/Frostielocks/archi-import
 ```

@@ -1,6 +1,7 @@
 import argparse
 import os
 
+
 def convert_names_to_csv(names, type, specialization="", verbose=False):
     """
     Converts a list of names to an importable archi csv string.
@@ -30,18 +31,20 @@ def convert_names_to_csv(names, type, specialization="", verbose=False):
 
 def read_names_from_file(filename, verbose=False):
     """
+    Reads the names for the elements from a given filename.
+    Each line in the input file will correspond to a new name.
 
     Args:
         filename (str): the path to the input file
         verbose (bool=False): show verbose output
     
     Returns:
+        list(str): the input list of names
     """
     if verbose:
         print("Reading names from {0}...".format(filename))
 
     names = []
-    # TODO do any sanitization?
     with open(filename, 'r') as fd:
         names = fd.readlines()
     
@@ -81,6 +84,19 @@ def write_csv_to_file(csv_string, filename, verbose=False):
 
 def sanitize_output(output_path, verbose=False):
     """
+    Sanitizes a given output_path and raises an error if the output path is incorrect.
+    Note that archi expects a file titled "elements.csv" and this function wil raise an error if that is not possible.
+    This function will adjust existing directory path to point to an elements.csv in that directory.
+
+    Args:
+        output_path (str): the path to the output file
+        verbose (bool=False): show verbose output
+    
+    Returns:
+        str: the sanitized output path
+
+    Raises:
+        ValueError: The output path cannot be sanitized to a valid path.
     """
     if os.path.exists(output_path) and os.path.isdir(output_path):
         new_output_path = output_path + ('' if output_path.endswith('/') else '/') + 'elements.csv'
@@ -114,13 +130,13 @@ def initialize_parser():
         help="type of ArchiMate elements to be imported")
     parser.add_argument('input',
         help="path to the input file containing the list of names")
-
-    parser.add_argument('-o', '--output', default="elements.csv",
-        help="path to the output file (or directory), default is \"elements.csv\"")
-    parser.add_argument('-s', '--specialization',
-        help="specialization for the ArchiMate elements") 
+    
     parser.add_argument('-v', '--verbose', action='store_true', 
         help="show verbose output")
+    parser.add_argument('-s', '--specialization',
+        help="specialization for the ArchiMate elements") 
+    parser.add_argument('-o', '--output', default="elements.csv",
+        help="path to the output file (or directory), default is \"elements.csv\"")
 
     return parser
 
