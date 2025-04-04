@@ -3,12 +3,16 @@ import os
 
 def convert_names_to_csv(names, type, specialization="", verbose=False):
     """
+    Converts a list of names to an importable archi csv string.
 
-    Parameters:
-        names: the input list of names
+    Args:
+        names (list(str)): the input list of names
+        type (str): the type of ArchiMate elements to be imported
+        specialization(str=""): the optional specialization for the element
+        verbose (bool=False): show verbose output
 
     Returns:
-        String: the output csv string
+        str: an importable archi csv string
     """
     if verbose:
         print("Converting names to csv...")
@@ -20,11 +24,18 @@ def convert_names_to_csv(names, type, specialization="", verbose=False):
     
     if verbose and not string_builder == preamble:
         print("Converted names to csv successfully!")
+
     return string_builder
 
 
 def read_names_from_file(filename, verbose=False):
     """
+
+    Args:
+        filename (str): the path to the input file
+        verbose (bool=False): show verbose output
+    
+    Returns:
     """
     if verbose:
         print("Reading names from {0}...".format(filename))
@@ -39,11 +50,21 @@ def read_names_from_file(filename, verbose=False):
             print("Read {0} names successfully!".format(len(names)))
         else:
             print("Found no names.")
+
     return names
 
 
 def write_csv_to_file(csv_string, filename, verbose=False):
     """
+    Write an importable archi csv string to a file.
+
+    Args:
+        csv_string (str): an importable archi csv string
+        filename (str): the path to the output file
+        verbose (bool=False): show verbose output
+    
+    Returns:
+        int: amount of bytes written to file
     """
     if verbose:
         print("Writing csv to {0}...".format(filename))
@@ -54,6 +75,7 @@ def write_csv_to_file(csv_string, filename, verbose=False):
 
     if verbose:
         print("Wrote {0} bytes to {1}!".format(bytes_written, filename))
+
     return bytes_written
 
 
@@ -70,7 +92,7 @@ def sanitize_output(output_path, verbose=False):
     
     elif output_path.endswith("/elements.csv") or output_path == "elements.csv":
         return output_path
-    
+
     else:
         raise ValueError("output filename should either be an existing directory or end with \"elements.csv\"")
 
@@ -91,7 +113,7 @@ def initialize_parser():
     parser.add_argument('type', 
         help="type of ArchiMate elements to be imported")
     parser.add_argument('input',
-        help="path to the input file containing the list")
+        help="path to the input file containing the list of names")
 
     parser.add_argument('-o', '--output', default="elements.csv",
         help="path to the output file (or directory), default is \"elements.csv\"")
