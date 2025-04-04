@@ -24,6 +24,8 @@ def convert_names_to_csv(names, type, specialization="", verbose=False):
 
 
 def read_names_from_file(filename, verbose=False):
+    """
+    """
     if verbose:
         print("Reading names from {0}...".format(filename))
 
@@ -32,12 +34,17 @@ def read_names_from_file(filename, verbose=False):
     with open(filename, 'r') as fd:
         names = fd.readlines()
     
-    if verbose and names:
-        print("Read {0} names successfully!".format(len(names)))
+    if verbose:
+        if names:
+            print("Read {0} names successfully!".format(len(names)))
+        else:
+            print("Found no names.")
     return names
 
 
 def write_csv_to_file(csv_string, filename, verbose=False):
+    """
+    """
     if verbose:
         print("Writing csv to {0}...".format(filename))
     
@@ -48,14 +55,6 @@ def write_csv_to_file(csv_string, filename, verbose=False):
     if verbose:
         print("Wrote {0} bytes to {1}!".format(bytes_written, filename))
     return bytes_written
-
-
-def sanitize_type(type):
-    return
-
-
-def sanitize_specialization(specialization):
-    return
 
 
 def sanitize_output(output_path, verbose=False):
@@ -74,12 +73,6 @@ def sanitize_output(output_path, verbose=False):
     
     else:
         raise ValueError("output filename should either be an existing directory or end with \"elements.csv\"")
-
-
-def sanitize_arguments(args):
-    args.output = sanitize_output(output_path=args.output, verbose=args.verbose)
-
-    return args
 
 
 def initialize_parser():
@@ -113,7 +106,8 @@ def initialize_parser():
 def main():
     """The entrypoint for this script."""
     parser = initialize_parser()
-    args = sanitize_arguments(parser.parse_args())
+    args = parser.parse_args()
+    args.output = sanitize_output(output_path=args.output, verbose=args.verbose)
 
     if args.verbose:
         print("Starting...")
