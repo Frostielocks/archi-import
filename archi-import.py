@@ -1,5 +1,6 @@
 import argparse
 
+
 def convert_names_to_csv(names, type, specialization="", verbose=False):
     """
 
@@ -48,6 +49,7 @@ def write_csv_to_file(csv_string, filename, verbose=False):
         print("Wrote {0} bytes to {1}!".format(bytes_written, filename))
     return bytes_written
 
+
 def initialize_parser():
     """
     Initialize a new parser object.
@@ -56,19 +58,19 @@ def initialize_parser():
         ArgumentParser: an initialized parser object
     """
     parser = argparse.ArgumentParser(
-        prog='archi-import - Import a list as archi elements',
-        description='Creates a elements.csv file to be used by archi to populate elements.',
-        epilog='For more information, contact the AppSec team.'
+        prog='archi-import',
+        description='Create an archi import csv file given a list of names',
+        epilog='See also https://github.com/Frostielocks/archi-import'
     )
 
     parser.add_argument('type', 
-        help="the type of the specified elements")
+        help="type of ArchiMate elements to be imported")
     parser.add_argument('input',
-        help="the input file containing a list of element names")
+        help="path to the input file containing the list")
     parser.add_argument('-o', '--output', default="elements.csv",
-        help="")
+        help="path to the output file, default is \"elements.csv\"")
     parser.add_argument('-s', '--specialization',
-        help="") 
+        help="specialization for the ArchiMate elements") 
     parser.add_argument('-v', '--verbose', action='store_true', 
         help="show verbose output")
 
@@ -89,5 +91,6 @@ def main():
 
     if args.verbose:
         print("Finished!")
+
 
 main()
