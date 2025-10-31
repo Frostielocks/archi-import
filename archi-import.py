@@ -2,7 +2,7 @@ import argparse
 import os
 
 
-def convert_names_to_csv(names, type, specialization="", verbose=False):
+def convert_names_to_csv(names, element_type, specialization="", verbose=False):
     """
     Converts a list of names to an importable archi csv string.
 
@@ -21,7 +21,7 @@ def convert_names_to_csv(names, type, specialization="", verbose=False):
     preamble = '"ID","Type","Name","Documentation","Specialization"\n'
     string_builder = preamble
     for name in names:
-        string_builder += '"","' + type +'","' + name + '","","' + specialization + '"\n'
+        string_builder += '"","' + element_type +'","' + name.strip() + '","","' + specialization + '"\n'
     
     if verbose and not string_builder == preamble:
         print("Converted names to csv successfully!")
@@ -133,7 +133,7 @@ def initialize_parser():
     
     parser.add_argument('-v', '--verbose', action='store_true', 
         help="show verbose output")
-    parser.add_argument('-s', '--specialization',
+    parser.add_argument('-s', '--specialization', default="",
         help="specialization for the ArchiMate elements") 
     parser.add_argument('-o', '--output', default="elements.csv",
         help="path to the output file (or directory), default is \"elements.csv\"")
@@ -151,7 +151,7 @@ def main():
         print("Starting...")
     
     names = read_names_from_file(filename=args.input, verbose=args.verbose)
-    csv_string = convert_names_to_csv(names=names, type=args.type, specialization=args.specialization, verbose=args.verbose)
+    csv_string = convert_names_to_csv(names=names, element_type=args.type, specialization=args.specialization, verbose=args.verbose)
     write_csv_to_file(csv_string=csv_string, filename=args.output, verbose=args.verbose)
 
     if args.verbose:
